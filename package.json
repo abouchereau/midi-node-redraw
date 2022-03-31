@@ -1,0 +1,10 @@
+{
+  "bin": "index.js",
+  "name": "midi-node-redraw",
+  "description": "Midi Node Redraw",
+  "dependencies": {
+    "midi": "^2.0.0",
+    "nanotimer": "^0.3.15",
+    "yargs": "^17.4.0"
+  }
+}
