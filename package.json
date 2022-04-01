@@ -3,8 +3,10 @@
   "name": "midi-node-redraw",
   "description": "Midi Node Redraw",
   "dependencies": {
+    "cli-color": "^2.0.2",
     "midi": "^2.0.0",
     "nanotimer": "^0.3.15",
+    "node-hid": "^2.1.1",
     "yargs": "^17.4.0"
   }
 }
