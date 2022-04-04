@@ -39,20 +39,34 @@ let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
 
 
 let ctrl = false;
-
+let recordAudioProcess = null;
+let homeDir = require('os').homedir();
 //numpad mapping
 device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
     ctrl = tab[0] == 1;
     let key = tab[2];
-    console.log(key);
-    /*  switch(key) {
-        case NUMPAD1:
-            son.send({remap:'majorChord'});
+    switch(key) {
+        case NUMPAD_1:
+            son.send({remap:'touchBoardVolcaJMJMelody'});
             break;
-        case NUMPAD2:
-            son.send({remap:'changeNothing'});
+        case NUMPAD_2:
+              son.send({remap:'touchBoardVolcaJMJMute'});
+              break;
+        case NUMPAD_3:
+              son.send({remap:'touchBoardVolcaDaftPunk'});
+              break;
+        case NUMPAD_4:
+            son.send({remap:'touchBoardVolcaChangePattern'});
             break;
-            //this.recordAudioProcess = spawn("arecord",["-f","cd",this.homeDir+"/Musique/in_"+Utils.getFormattedDate()+".wav"],{detached:true,stdio:['ignore',1,2]});
-    }*/
+        case NUMPAD_PLUS:
+            recordAudioProcess = spawn("arecord",["-f","cd",homeDir+"/Musique/in_"+Utils.getFormattedDate()+".wav"],{detached:true,stdio:['ignore',1,2]});
+            console.log("Start Recording Audio");
+            break;
+        case NUMPAD_MINUS:
+            process.kill(-recordAudioProcess.pid);
+            recordAudioProcess = null;
+            console.log("Stop Recording Audio");
+            break;
+        }
 });
