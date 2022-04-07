@@ -35,7 +35,7 @@ let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
 
 
 
-//let son = childProcess.fork(__dirname + "/index.js", ["-o=Throu","-i=Garage"]);
+let son = childProcess.fork(__dirname + "/index.js", ["-o=Throu","-i=Garage"]);
 
 
 let ctrl = false;
@@ -46,6 +46,7 @@ device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
     ctrl = tab[0] == 1;
     let key = tab[2];
+    console.log("KEY = ",key);
     switch(key) {
         case NUMPAD_1:
             son.send({remap:'touchBoardVolcaJMJMelody'});
@@ -58,6 +59,9 @@ device.on('data',(a)=> {
               break;
         case NUMPAD_4:
             son.send({remap:'touchBoardVolcaChangePattern'});
+            break;
+        case NUMPAD_5:
+            son.send({remap:'touchBoardVolcaDaftPunk'});
             break;
         case NUMPAD_PLUS:
             recordAudioProcess = spawn("arecord",["-f","cd",homeDir+"/Musique/in_"+Utils.getFormattedDate()+".wav"],{detached:true,stdio:['ignore',1,2]});
