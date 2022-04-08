@@ -47,7 +47,6 @@ midiOut.scanDevices().then(()=> {
 //listen IN messages and send OUT
 function start() {
     midiIn.onMidiMessage((cmd, channel, param1, param2) => {
-        console.log("REMAP");
         let outMessages = remap.getMidiMessages(cmd, channel, param1, param2);
         for (let msg of outMessages) {
             midiOut.send(msg);
@@ -78,8 +77,6 @@ function start() {
 
 
 process.on('message', (json)=> {
-
-    console.log(json, json.remap, Presets[json.remap]);
     if (json.remap != null && typeof Presets[json.remap] == "object") {
         remap = Presets[json.remap];
     }
