@@ -35,7 +35,7 @@ let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
 
 
 
-let son = childProcess.fork(__dirname + "/index.js", ["-o=Throu","-i=Garage"]);
+let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
 
 
 let ctrl = false;
@@ -46,7 +46,7 @@ device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
     ctrl = tab[0] == 1;
     let key = tab[2];
-    console.log("KEY = ",key);
+    //console.log("KEY = ",key);
     switch(key) {
         case NUMPAD_1:
             son.send({remap:'touchBoardVolcaJMJMelody'});

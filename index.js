@@ -23,6 +23,7 @@ const argv = yargs
 let remap = Presets.changeNothing;
 let automationTimer = null;
 let automationMsCounter = 0;
+let timeout = null;
 
 //check Midi Devices on parameters
 if (typeof argv.midiOutputName != "string" || typeof argv.midiInputName != "string") {
@@ -65,12 +66,20 @@ function start() {
                     midiOut.send(msg);
                 }
             },'',remap.automation.interval+"m");
+            if (timeout != null) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+
+
         }
-        if (remap.hasAutomation() && cmd == MidiMsg.NOTE_OFF && automationTimer != null) {
-            automationTimer.setTimeout(()=>{
-                automationTimer.clearInterval();
-                automationTimer = null;
-            }, '', '3s');
+        if (remap.hasAutomation() && cmd == MidiMsg.NOTE_OFF) {
+            timeout = setTimeout(()=>{
+                if (automationTimer != null) {
+                    automationTimer.clearInterval();
+                    automationTimer = null;
+                }
+            }, 3000);
         }
     });
 }
