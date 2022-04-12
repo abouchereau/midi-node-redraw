@@ -52,7 +52,9 @@ function start() {
         for (let msg of outMessages) {
             midiOut.send(msg);
         }
-        if (remap.hasAutomation() && cmd == MidiMsg.NOTE_ON) {
+        if (remap.hasAutomation() && cmd == MidiMsg.NOTE_ON
+            && channel >= remap.automation.filters.channelMin && channel <= remap.automation.filters.channelMax
+            && param1 >= remap.automation.filters.noteMin && param1 <= remap.automation.filters.noteMax) {
             if (automationTimer != null) {
                 automationTimer.clearInterval();
                 automationTimer = null;
