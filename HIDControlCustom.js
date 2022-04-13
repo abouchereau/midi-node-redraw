@@ -2,6 +2,7 @@ const childProcess = require('child_process');
 const spawn = require('child_process').spawn;
 const { exec } = require('child_process');
 const HID = require('node-hid');
+const LedControl = require("./lib/LedControl");
 
 const NUMPAD_VERRNUM = 83;
 const NUMPAD_DIVIDE = 84;
@@ -32,7 +33,7 @@ for(let device of devices) {
 
 
 let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
-
+let ledControl = new LedControl();
 
 
 let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
@@ -40,7 +41,8 @@ let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
 
 let ctrl = false;
 let recordAudioProcess = null;
-let homeDir = require('os').homedir();
+const HOME_DIR = require('os').homedir();
+const RECORD_DIR = HOME_DIR+"/usb-key/";
 //numpad mapping
 device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
@@ -56,6 +58,7 @@ device.on('data',(a)=> {
               break;
         case NUMPAD_3:
               son.send({remap:'touchBoardVolcaDaftPunk'});
+              ledControl.setNum(2);
               break;
         case NUMPAD_4:
             son.send({remap:'touchBoardVolcaChangePattern'});
@@ -64,13 +67,14 @@ device.on('data',(a)=> {
             son.send({remap:'touchBoardVolcaDaftPunk'});
             break;
         case NUMPAD_PLUS:
-            recordAudioProcess = spawn("arecord",["-f","cd",homeDir+"/Musique/in_"+Utils.getFormattedDate()+".wav"],{detached:true,stdio:['ignore',1,2]});
+            recordAudioProcess = spawn("arecord",["-f","cd",RECORD_DIR+"in_"+Utils.getFormattedDate()+".wav"],{detached:true,stdio:['ignore',1,2]});
+            ledControl.startRecord();
             console.log("Start Recording Audio");
             break;
         case NUMPAD_MINUS:
             process.kill(-recordAudioProcess.pid);
             recordAudioProcess = null;
-            console.log("Stop Recording Audio");
+            ledControl.stopRecord();
             break;
         }
 });
