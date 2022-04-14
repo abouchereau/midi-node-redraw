@@ -25,7 +25,7 @@ const NUMPAD_DOT = 99;
 let devices = HID.devices();
 let keyboardDevice = null;
 for(let device of devices) {
-    if (device["product"].indexOf("Keyboard")>-1 ||  device["product"].indexOf("2.4G")>-1) {
+    if (/*device["product"].indexOf("Keyboard")>-1 ||  */device["product"].indexOf("2.4G")>-1) {
         keyboardDevice = device;
     }
 }
@@ -46,8 +46,8 @@ device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
     ctrl = tab[0] == 1;
     let key = tab[2];
-    //console.log("KEY = ",key);
-    switch(key) {
+    console.log("KEY = ",key);
+    /*switch(key) {
         case NUMPAD_1:
             son.send({remap:'touchBoardVolcaJMJMelody'});
             break;
@@ -72,5 +72,5 @@ device.on('data',(a)=> {
             recordAudioProcess = null;
             console.log("Stop Recording Audio");
             break;
-        }
+        }*/
 });
