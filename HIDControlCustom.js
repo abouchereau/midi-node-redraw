@@ -28,7 +28,7 @@ const NUMPAD_DOT = 99;
 let devices = HID.devices();
 let keyboardDevice = null;
 for(let device of devices) {
-    if (/*device["product"].indexOf("Keyboard")>-1 ||  */device["product"].indexOf("2.4G")>-1) {
+    if (device["product"].indexOf("Keyboard")>-1 ||  device["product"].indexOf("2.4G")>-1) {
         keyboardDevice = device;
     }
 }
@@ -38,8 +38,8 @@ let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
 let ledControl = new LedControl();
 
 
-//let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
-let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Touch"]);
+let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
+//let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Touch"]);
 
 
 let ctrl = false;
@@ -51,7 +51,8 @@ device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
     ctrl = tab[0] == 1;
     let key = tab[2];
-    switch(key) {        case NUMPAD_1:
+    switch(key) {
+        case NUMPAD_1:
             son.send({remap:'touchBoardVolcaTransition'});
             ledControl.setNum(0);
             break;
