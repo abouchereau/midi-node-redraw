@@ -51,7 +51,12 @@ function start() {
         console.log("MIDI",cmd,channel,param1,param2);
         let outMessages = remap.getMidiMessages(cmd, channel, param1, param2);
         for (let msg of outMessages) {
-            midiOut.send(msg);
+            if (msg[0] == 0) {
+                midiOut.setTempo(msg[1]);
+            }
+            else {
+                midiOut.send(msg);
+            }
         }
         if (remap.hasAutomation() && cmd == MidiMsg.NOTE_ON
             && channel >= remap.automation.filters.channelMin && channel <= remap.automation.filters.channelMax

@@ -52,22 +52,16 @@ device.on('data',(a)=> {
     ctrl = tab[0] == 1;
     let key = tab[2];
     switch(key) {        case NUMPAD_1:
-            son.send({remap:'touchBoardVolcaJMJMelody'});
+            son.send({remap:'touchBoardVolcaTransition'});
             ledControl.setNum(0);
             break;
         case NUMPAD_2:
-            son.send({remap:'touchBoardVolcaJMJMute'});
+            son.send({remap:'touchBoardVolcaJMJMelody'});
             ledControl.setNum(1);
             break;
         case NUMPAD_3:
             son.send({remap:'touchBoardVolcaDaftPunk'});
             ledControl.setNum(2);
-            break;
-        case NUMPAD_4:
-            son.send({remap:'touchBoardVolcaChangePattern'});
-            break;
-        case NUMPAD_5:
-            son.send({remap:'touchBoardVolcaDaftPunk'});
             break;
         case NUMPAD_PLUS:
             recordAudioProcess = spawn("arecord",["-f","cd",RECORD_DIR+"in_"+Utils.getFormattedDate()+".wav"],{detached:true,stdio:['ignore',1,2]});
