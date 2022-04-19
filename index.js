@@ -48,7 +48,7 @@ midiOut.scanDevices().then(()=> {
 //listen IN messages and send OUT
 function start() {
     midiIn.onMidiMessage((cmd, channel, param1, param2) => {
-        console.log("MIDI",cmd,channel,param1,param2);
+        //console.log("MIDI",cmd,channel,param1,param2);
         let outMessages = remap.getMidiMessages(cmd, channel, param1, param2);
         for (let msg of outMessages) {
             if (msg[0] == 0) {
