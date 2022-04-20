@@ -57,7 +57,7 @@ device.on('data',(a)=> {
             ledControl.setNum(0);
             break;
         case NUMPAD_2:
-            son.send({remap:'touchBoardVolcaJMJMelody'});
+            son.send({remap:'touchBoardVolcaJMJ'});
             ledControl.setNum(1);
             break;
         case NUMPAD_3:

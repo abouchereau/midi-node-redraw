@@ -58,9 +58,11 @@ function start() {
                 midiOut.send(msg);
             }
         }
+        console.log("REMAP",remap.hasAutomation() && channel >= remap.automation.filters.channelMin, remap.hasAutomation() && channel <= remap.automation.filters.channelMax );
         if (remap.hasAutomation() && cmd == MidiMsg.NOTE_ON
             && channel >= remap.automation.filters.channelMin && channel <= remap.automation.filters.channelMax
             && param1 >= remap.automation.filters.noteMin && param1 <= remap.automation.filters.noteMax) {
+            console.log("REMAP GO");
             if (automationTimer != null) {
                 automationTimer.clearInterval();
                 automationTimer = null;
