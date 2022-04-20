@@ -35,6 +35,8 @@ if (typeof argv.midiOutputName != "string" || typeof argv.midiInputName != "stri
 
 //open midi input / output
 let midiOut = new MidiOutput();
+const CC_FLD = 50;
+midiOut.avoidCCRepetition([CC_FLD]);
 let midiIn = new MidiInput();
 midiOut.scanDevices().then(()=> {
     midiOut.openFromName(argv.midiOutputName);
