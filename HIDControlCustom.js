@@ -38,8 +38,8 @@ let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
 let ledControl = new LedControl();
 
 
-let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
-//let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Touch"]);
+//let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Garage"]);
+let son = childProcess.fork(__dirname + "/index.js", ["-o=CH345","-i=Touch"]);
 
 
 let ctrl = false;
