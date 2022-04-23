@@ -20,7 +20,7 @@ const argv = yargs
     }).argv;
 
 
-let remap = Presets.changeNothing;
+let remap = Presets.touchBoardVolcaTest;
 let automationTimer = null;
 let automationMsCounter = 0;
 let timeout = null;
