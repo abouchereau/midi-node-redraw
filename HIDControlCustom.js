@@ -34,6 +34,10 @@ for(let device of devices) {
 }
 
 
+
+//TODO : lancer/ arrêter l'index avec le clavier
+//TODO : un set test mélodique avec  12 notes
+
 let device = new HID.HID(keyboardDevice.vendorId,keyboardDevice.productId);
 let ledControl = new LedControl();
 
