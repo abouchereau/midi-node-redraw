@@ -47,6 +47,7 @@ let recordAudioProcess = null;
 let indexProcess = null;
 const HOME_DIR = require('os').homedir();
 const RECORD_DIR = HOME_DIR+"/usb-key-01/";
+let keyHistory = [];
 //numpad mapping
 device.on('data',(a)=> {
     let tab = Array.prototype.slice.call(a);
@@ -98,9 +99,21 @@ device.on('data',(a)=> {
             ledControl.startRecord();
             break;
         case NUMPAD_MINUS:
-            process.kill(-recordAudioProcess.pid);
-            recordAudioProcess = null;
+            if (recordAudioProcess != null) {
+                process.kill(-recordAudioProcess.pid);
+                recordAudioProcess = null;
+            }
             ledControl.stopRecord();
             break;
+        }
+        keyHistory.unshift(key);
+        keyHistory.slice(0,3);
+        if (Utils.arrayEquals(keyHistory, [NUMPAD_DIVIDE, NUMPAD_DIVIDE, NUMPAD_DIVIDE])) {
+            ledControl.allOff();
+            exec("shutdown now");
+        }
+        if (Utils.arrayEquals(keyHistory, [NUMPAD_MULTIPLY, NUMPAD_MULTIPLY, NUMPAD_MULTIPLY])) {
+            ledControl.allOff();
+            exec("shutdown -r now");
         }
 });
