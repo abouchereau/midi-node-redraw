@@ -46,7 +46,18 @@ midiOut.scanDevices().then(()=> {
     })
 })
 
+/**
+ * 131/home/anto/www/node/midi-node-redraw/index.js:73
+ automationMsCounter += remap.automation.interval;
+ ^
 
+ TypeError: Cannot read property 'interval' of null
+ at /home/anto/www/node/midi-node-redraw/index.js:73:57
+ at NanoTimer.setInterval (/home/anto/www/node/midi-node-redraw/node_modules/nanotimer/lib/nanotimer.js:220:5)
+ at Immediate.<anonymous> (/home/anto/www/node/midi-node-redraw/node_modules/nanotimer/lib/nanotimer.js:206:67)
+ at processImmediate (internal/timers.js:462:21)
+
+ */
 //listen IN messages and send OUT
 function start() {
     midiIn.onMidiMessage((cmd, channel, param1, param2) => {
@@ -70,10 +81,16 @@ function start() {
             automationTimer = new NanoTimer();
             automationMsCounter = 0;
             automationTimer.setInterval(() => {
-                automationMsCounter += remap.automation.interval;
-                let midiMessages = remap.automation.fn(automationMsCounter,channel,param1);
-                for (let msg of midiMessages) {
-                    midiOut.send(msg);
+                if (remap.automation != null) {//if change remap during interval
+                    automationMsCounter += remap.automation.interval;
+                    let midiMessages = remap.automation.fn(automationMsCounter, channel, param1);
+                    for (let msg of midiMessages) {
+                        midiOut.send(msg);
+                    }
+                }
+                else {
+                    automationMsCounter = 0;
+                    automationTimer.clearInterval()
                 }
             },'',remap.automation.interval+"m");
             if (timeout != null) {
